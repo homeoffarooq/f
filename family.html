@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Family Heritage Portal & Estate</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    },
+                    animation: {
+                        float: 'float 4s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase JS Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcfdfd;
+            color: #1e293b;
+        }
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #059669;
+            border-radius: 4px;
+        }
+        .drag-over {
+            border-color: #059669 !important;
+            background-color: #f0fdf4 !important;
+        }
+        .float-delay-1 { animation-delay: 0.5s; }
+        .float-delay-2 { animation-delay: 1.0s; }
+        .float-delay-3 { animation-delay: 1.5s; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between selection:bg-emerald-100 selection:text-emerald-800">
+
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-emerald-100 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-emerald-700 text-white flex items-center justify-center font-serif-title font-bold text-xl shadow-md shadow-emerald-700/20 group-hover:scale-105 transition-transform">
+                    H
+                </div>
+                <div>
+                    <span class="block font-serif-title text-xl font-bold text-slate-900 tracking-tight">THE HERITAGE</span>
+                    <span class="block text-xs uppercase tracking-widest text-emerald-600 font-semibold">Family Portal</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600">
+                <a href="#head-section" class="hover:text-emerald-700 transition-colors">Head of Family</a>
+                <a href="#members-section" class="hover:text-emerald-700 transition-colors">Members</a>
+                <a href="#house-videos-section" class="hover:text-emerald-700 transition-colors">House Videos</a>
+                <a href="#events-section" class="hover:text-emerald-700 transition-colors">Events</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <div id="supabase-status-badge" class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-700">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Local Storage Mode
+                </div>
+                <button onclick="openAdminAuthModal()" class="px-4 py-2.5 rounded-xl border border-emerald-600 text-emerald-700 hover:bg-emerald-700 hover:text-white font-medium text-sm transition-all duration-200 flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-lock text-xs"></i>
+                    <span>Admin Panel</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative bg-slate-900 text-white overflow-hidden min-h-[480px] sm:min-h-[580px] flex items-center justify-center">
+        <div class="absolute inset-0 z-0">
+            <img id="banner-img-display" src="" alt="Family Banner" class="w-full h-full object-cover object-center brightness-50 transition-opacity duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-6 py-16">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-200 text-xs sm:text-sm font-semibold tracking-wider uppercase backdrop-blur-md">
+                <i class="fa-solid fa-shield-halved text-emerald-400"></i> Unity & Honor
+            </div>
+            <h1 id="slogan-display" class="text-3xl sm:text-5xl md:text-6xl font-serif-title font-bold leading-tight text-white tracking-wide max-w-4xl mx-auto drop-shadow-md">
+            </h1>
+            <div class="pt-4 flex justify-center gap-4">
+                <a href="#head-section" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm shadow-lg shadow-emerald-900/30 transition-all hover:scale-105">
+                    Explore Legacy
+                </a>
+                <a href="#house-videos-section" class="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-sm backdrop-blur-md border border-white/20 transition-all">
+                    House Tour
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main class="flex-grow space-y-24 py-16">
+
+        <!-- Head of Family Section -->
+        <section id="head-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-28">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Leadership</span>
+                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-slate-900">Head of Family</h2>
+                <div class="w-12 h-1 bg-emerald-600 mx-auto rounded-full mt-2"></div>
+            </div>
+            <div id="head-display-container" class="bg-white rounded-3xl border border-emerald-100 p-8 sm:p-12 shadow-xl shadow-emerald-900/5 relative overflow-hidden transition-all hover:shadow-emerald-900/10">
+            </div>
+        </section>
+
+        <!-- Members Section -->
+        <section id="members-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-28">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Our Kin</span>
+                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-slate-900">Family Members</h2>
+                <div class="w-12 h-1 bg-emerald-600 mx-auto rounded-full mt-2"></div>
+            </div>
+            <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+        </section>
+
+        <!-- House Video & Virtual Tour Section -->
+        <section id="house-videos-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-28">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Estate & Sanctuary</span>
+                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-slate-900">House Video & Virtual Tours</h2>
+                <div class="w-12 h-1 bg-emerald-600 mx-auto rounded-full mt-2"></div>
+            </div>
+            <div id="house-videos-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            </div>
+        </section>
+
+        <!-- Upcoming Events Section -->
+        <section id="events-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-28">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Gatherings & Milestones</span>
+                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-slate-900">Upcoming Events</h2>
+                <div class="w-12 h-1 bg-emerald-600 mx-auto rounded-full mt-2"></div>
+            </div>
+            <div id="events-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-serif-title font-bold text-lg">
+                    H
+                </div>
+                <span class="font-serif-title text-lg font-bold text-white tracking-wide">The Family Heritage</span>
+            </div>
+            <p class="text-xs text-slate-500 text-center">
+                &copy; <span id="current-year"></span> Family Heritage Portal. All Rights Reserved. Protected Access System.
+            </p>
+            <div class="flex items-center gap-4 text-xs">
+                <button onclick="openAdminAuthModal()" class="text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-key text-emerald-500"></i> Admin Access
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <div id="admin-auth-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl border border-emerald-100 w-full max-w-md p-6 sm:p-8 transform transition-all">
+            <div class="text-center space-y-3">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center mx-auto text-xl shadow-inner">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-xl font-serif-title font-bold text-slate-900">Protected Back-Office</h3>
+                <p class="text-xs text-slate-500">Enter security key 2026 to open admin controls.</p>
+            </div>
+
+            <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="mt-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Access Key</label>
+                    <div class="relative">
+                        <input type="password" id="auth-key-input" placeholder="Enter access key..." required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-center text-lg tracking-widest">
+                        <span class="absolute right-3 top-3.5 text-slate-400 text-sm">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                    </div>
+                    <p id="auth-error-msg" class="text-xs text-red-500 mt-2 hidden text-center font-medium">Invalid Key! Hint: 2026</p>
+                </div>
+
+                <div class="flex items-center gap-3 pt-2">
+                    <button type="button" onclick="closeAdminAuthModal()" class="w-1/2 py-3 rounded-xl border border-slate-200 text-slate-600 font-medium text-sm hover:bg-slate-50 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="w-1/2 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm shadow-md shadow-emerald-800/20 transition-all">
+                        Unlock Admin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-panel-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl border border-emerald-100 w-full max-w-5xl my-auto max-h-[92vh] flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="px-6 py-5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif-title text-lg font-bold">Back-Office Management</h2>
+                        <p class="text-xs text-emerald-400">Authenticated (Key: 2026)</p>
+                    </div>
+                </div>
+                <button onclick="closeAdminPanel()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="bg-slate-100/80 px-6 pt-3 border-b border-slate-200 flex gap-2 overflow-x-auto scrollbar-none">
+                <button onclick="switchAdminTab('hero')" id="tab-btn-hero" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 border-b-2 border-emerald-600 bg-white text-emerald-800 shadow-sm">
+                    <i class="fa-solid fa-image"></i> Banner & Slogan
+                </button>
+                <button onclick="switchAdminTab('head')" id="tab-btn-head" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-crown"></i> Head of Family
+                </button>
+                <button onclick="switchAdminTab('members')" id="tab-btn-members" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-users"></i> Members
+                </button>
+                <button onclick="switchAdminTab('videos')" id="tab-btn-videos" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-video"></i> House Videos
+                </button>
+                <button onclick="switchAdminTab('events')" id="tab-btn-events" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-calendar-days"></i> Events
+                </button>
+                <button onclick="switchAdminTab('supabase')" id="tab-btn-supabase" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-database text-emerald-600"></i> Supabase Integration
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="p-6 overflow-y-auto space-y-6 flex-grow bg-slate-50/50">
+
+                <!-- TAB 1: Hero -->
+                <div id="admin-tab-hero" class="admin-tab-content space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b pb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square text-emerald-600"></i> Edit Banner & Slogan
+                        </h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-2">Family Slogan</label>
+                            <input type="text" id="admin-slogan-input" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-slate-800 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-2">Banner Image</label>
+                            <div class="drop-zone border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center bg-slate-50 hover:bg-emerald-50/30 transition-colors cursor-pointer relative" id="banner-drop-zone">
+                                <input type="file" id="banner-file-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                <i class="fa-solid fa-cloud-arrow-up text-3xl text-emerald-600 mb-2"></i>
+                                <p class="text-sm font-medium text-slate-700">Drag & drop banner photo, or <span class="text-emerald-700 underline">click to browse</span></p>
+                            </div>
+                        </div>
+                        <div class="flex justify-end pt-2">
+                            <button onclick="saveHeroSettings()" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm shadow-sm transition-all">
+                                Save Banner & Slogan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Head of Family -->
+                <div id="admin-tab-head" class="admin-tab-content space-y-6 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-crown text-emerald-600"></i> Head of Family Setup
+                            </h3>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Enforced Single Entry</span>
+                        </div>
+                        
+                        <form id="head-form" onsubmit="saveHeadOfFamily(event)" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Full Name</label>
+                                    <input type="text" id="head-name-input" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Phone Number</label>
+                                    <input type="text" id="head-phone-input" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Description / Title</label>
+                                <textarea id="head-desc-input" rows="3" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Head Photo</label>
+                                <div class="drop-zone border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center bg-slate-50 hover:bg-emerald-50/30 transition-colors cursor-pointer relative" id="head-drop-zone">
+                                    <input type="file" id="head-file-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                    <div id="head-photo-preview" class="hidden mb-3">
+                                        <img src="" alt="Preview" class="w-20 h-20 rounded-full object-cover mx-auto border-2 border-emerald-600 shadow-sm">
+                                    </div>
+                                    <i class="fa-solid fa-user-plus text-2xl text-emerald-600 mb-1"></i>
+                                    <p class="text-xs font-medium text-slate-700">Drag & drop photo here or <span class="text-emerald-700 underline">click to browse</span></p>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end pt-2">
+                                <button type="submit" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm shadow-md transition-all">
+                                    Update Head of Family
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- TAB 3: Members -->
+                <div id="admin-tab-members" class="admin-tab-content space-y-6 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b pb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-user-plus text-emerald-600"></i> Add Family Member
+                        </h3>
+                        <form id="member-form" onsubmit="addFamilyMember(event)" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Name</label>
+                                    <input type="text" id="member-name-input" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Phone Number</label>
+                                    <input type="text" id="member-phone-input" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Description / Relation</label>
+                                <textarea id="member-desc-input" rows="2" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Photo Upload</label>
+                                <div class="drop-zone border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center bg-slate-50 hover:bg-emerald-50/30 transition-colors cursor-pointer relative" id="member-drop-zone">
+                                    <input type="file" id="member-file-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                    <i class="fa-solid fa-cloud-arrow-up text-xl text-emerald-600 mb-1"></i>
+                                    <p class="text-xs font-medium text-slate-700">Drag photo or <span class="text-emerald-700 underline">browse</span></p>
+                                </div>
+                            </div>
+                            <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm shadow-sm transition-all">
+                                Add Member
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b pb-2">Existing Members</h3>
+                        <div id="admin-members-list" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: House Videos (NEW) -->
+                <div id="admin-tab-videos" class="admin-tab-content space-y-6 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b pb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-video text-emerald-600"></i> Add House Video / Tour
+                        </h3>
+                        <form id="video-form" onsubmit="addHouseVideo(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Video Title</label>
+                                <input type="text" id="video-title-input" placeholder="e.g. Living Room & Garden Virtual Tour" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Description</label>
+                                <textarea id="video-desc-input" rows="2" placeholder="Brief description of the house tour video..." required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"></textarea>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Option A: Video URL (MP4 / WebM / YouTube Embed)</label>
+                                    <input type="url" id="video-url-input" placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Option B: Upload Video File</label>
+                                    <div class="drop-zone border-2 border-dashed border-slate-300 rounded-2xl p-3 text-center bg-slate-50 hover:bg-emerald-50/30 transition-colors cursor-pointer relative" id="video-drop-zone">
+                                        <input type="file" id="video-file-input" accept="video/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                        <p class="text-xs font-medium text-slate-700"><i class="fa-solid fa-film text-emerald-600 mr-1"></i> Drag video file or <span class="text-emerald-700 underline">browse</span></p>
+                                        <div id="video-file-name" class="text-[10px] text-emerald-700 font-semibold mt-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm shadow-sm transition-all">
+                                Upload & Save Video
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b pb-2">Active House Videos</h3>
+                        <div id="admin-videos-list" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: Events (Multi-picture enabled) -->
+                <div id="admin-tab-events" class="admin-tab-content space-y-6 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b pb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-plus text-emerald-600"></i> Create Event (Multiple Pictures Support)
+                        </h3>
+                        <form id="event-form" onsubmit="addUpcomingEvent(event)" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Event Name</label>
+                                    <input type="text" id="event-title-input" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Date & Time</label>
+                                    <input type="text" id="event-datetime-input" placeholder="e.g. Dec 25, 2026 at 6:00 PM" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Event Description</label>
+                                <textarea id="event-desc-input" rows="2" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Event Pictures (Select / Drag Multiple Photos)</label>
+                                <div class="drop-zone border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center bg-slate-50 hover:bg-emerald-50/30 transition-colors cursor-pointer relative" id="event-drop-zone">
+                                    <input type="file" id="event-file-input" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                    <i class="fa-solid fa-images text-2xl text-emerald-600 mb-1"></i>
+                                    <p class="text-xs font-medium text-slate-700">Drag multiple images or <span class="text-emerald-700 underline">click to browse</span></p>
+                                    <div id="event-files-preview-count" class="text-xs font-semibold text-emerald-700 mt-2"></div>
+                                </div>
+                            </div>
+                            <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm shadow-sm transition-all">
+                                Publish Event
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b pb-2">Active Events</h3>
+                        <div id="admin-events-list" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 6: Supabase Integration Configuration (NEW) -->
+                <div id="admin-tab-supabase" class="admin-tab-content space-y-6 hidden">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b pb-3">
+                            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-database text-emerald-600"></i> Supabase Database Integration
+                            </h3>
+                            <span id="supabase-indicator-modal" class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-full">Disconnected (Using LocalStorage)</span>
+                        </div>
+
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Connect your project to Supabase for real-time cloud database storage across all devices. If disconnected, the app automatically runs smoothly on LocalStorage.
+                        </p>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Supabase Project URL</label>
+                                <input type="text" id="supabase-url-input" placeholder="https://your-project.supabase.co" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Supabase Anon Key</label>
+                                <input type="password" id="supabase-key-input" placeholder="eyJhbGciOiJIUzI1NiIsIn..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                            </div>
+
+                            <div class="flex items-center gap-3 pt-2">
+                                <button onclick="saveSupabaseConfig()" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm shadow-sm transition-all">
+                                    Connect & Sync Supabase
+                                </button>
+                                <button onclick="disconnectSupabase()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium text-sm transition-all">
+                                    Use LocalStorage Only
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
+
+    <script>
+        // Default Mock Data
+        const DEFAULT_BANNER = "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=1600";
+        const DEFAULT_SLOGAN = "Legacy of Harmony, Unity & Purpose";
+
+        const DEFAULT_HEAD = {
+            id: 'head-1',
+            name: 'Arthur Pendelton Heritage',
+            phone: '+1 (555) 019-2834',
+            description: 'Patriarch and guiding wisdom of the family. Overseeing family unity, tradition preservation, and community leadership for over four decades.',
+            photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600'
+        };
+
+        const DEFAULT_MEMBERS = [
+            {
+                id: 'mem-1',
+                name: 'Eleanor Heritage',
+                phone: '+1 (555) 019-5821',
+                description: 'Senior Director of Family Foundation & Cultural Heritage.',
+                photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600'
+            },
+            {
+                id: 'mem-2',
+                name: 'Marcus Heritage',
+                phone: '+1 (555) 019-3392',
+                description: 'Head of Strategic Operations and Youth Mentorship Program.',
+                photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600'
+            }
+        ];
+
+        const DEFAULT_VIDEOS = [
+            {
+                id: 'vid-1',
+                title: 'Main Estate & Courtyard Tour',
+                description: 'A serene walkthrough of the family sanctuary and surrounding gardens.',
+                url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
+            }
+        ];
+
+        const DEFAULT_EVENTS = [
+            {
+                id: 'evt-1',
+                title: 'Annual Grand Heritage Reunion',
+                datetime: 'December 24, 2026 • 5:00 PM',
+                description: 'Our flagship annual gathering with dinner, award ceremonies, and story sharing across generations.',
+                photos: [
+                    'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=600',
+                    'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=600'
+                ]
+            }
+        ];
+
+        // Supabase Client Instance Variable
+        let supabaseClient = null;
+
+        // Application State
+        let state = {
+            banner: DEFAULT_BANNER,
+            slogan: DEFAULT_SLOGAN,
+            head: DEFAULT_HEAD,
+            members: DEFAULT_MEMBERS,
+            videos: DEFAULT_VIDEOS,
+            events: DEFAULT_EVENTS
+        };
+
+        // Base64 Staging state
+        let tempUploads = {
+            banner: null,
+            head: null,
+            member: null,
+            videoFile: null,
+            eventPhotos: []
+        };
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            loadLocalStorageData();
+            await initSupabaseConnection();
+            renderAll();
+            setupDragAndDrop();
+        });
+
+        function loadLocalStorageData() {
+            state.banner = getLocal('banner', DEFAULT_BANNER);
+            state.slogan = getLocal('slogan', DEFAULT_SLOGAN);
+            state.head = getLocal('head', DEFAULT_HEAD);
+            state.members = getLocal('members', DEFAULT_MEMBERS);
+            state.videos = getLocal('videos', DEFAULT_VIDEOS);
+            state.events = getLocal('events', DEFAULT_EVENTS);
+        }
+
+        function getLocal(key, fallback) {
+            try {
+                const stored = localStorage.getItem('heritage_' + key);
+                return stored ? JSON.parse(stored) : fallback;
+            } catch (e) {
+                return fallback;
+            }
+        }
+
+        function setLocal(key, val) {
+            try {
+                localStorage.setItem('heritage_' + key, JSON.stringify(val));
+            } catch (e) {
+                showToast("LocalStorage quota exceeded. Try smaller media files.", "error");
+            }
+        }
+
+        async function initSupabaseConnection() {
+            const url = localStorage.getItem('heritage_sb_url');
+            const key = localStorage.getItem('heritage_sb_key');
+
+            if (url && key && window.supabase) {
+                try {
+                    supabaseClient = window.supabase.createClient(url, key);
+                    document.getElementById('supabase-url-input').value = url;
+                    document.getElementById('supabase-key-input').value = key;
+
+                    // Update UI status badges
+                    const badge = document.getElementById('supabase-status-badge');
+                    badge.classList.remove('hidden');
+                    badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
+                    badge.className = "hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800";
+
+                    document.getElementById('supabase-indicator-modal').textContent = "Connected to Cloud";
+                    document.getElementById('supabase-indicator-modal').className = "text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full";
+
+                    await syncFromSupabase();
+                } catch (err) {
+                    console.warn("Supabase connection failed, falling back to LocalStorage:", err);
+                }
+            }
+        }
+
+        async function saveSupabaseConfig() {
+            const url = document.getElementById('supabase-url-input').value.trim();
+            const key = document.getElementById('supabase-key-input').value.trim();
+
+            if (!url || !key) {
+                showToast("Please provide both Supabase URL and Key", "error");
+                return;
+            }
+
+            localStorage.setItem('heritage_sb_url', url);
+            localStorage.setItem('heritage_sb_key', key);
+            
+            showToast("Connecting to Supabase...");
+            await initSupabaseConnection();
+            await syncToSupabase();
+            showToast("Supabase Connected & Data Synced!");
+        }
+
+        function disconnectSupabase() {
+            localStorage.removeItem('heritage_sb_url');
+            localStorage.removeItem('heritage_sb_key');
+            supabaseClient = null;
+
+            const badge = document.getElementById('supabase-status-badge');
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Local Storage Mode`;
+            badge.className = "hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-700";
+
+            document.getElementById('supabase-indicator-modal').textContent = "Disconnected (Using LocalStorage)";
+            document.getElementById('supabase-indicator-modal').className = "text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-full";
+
+            showToast("Switched to LocalStorage Mode.");
+        }
+
+        async function syncFromSupabase() {
+            if (!supabaseClient) return;
+            try {
+                const { data, error } = await supabaseClient.from('family_state').select('*').single();
+                if (data && data.state_data) {
+                    state = data.state_data;
+                    renderAll();
+                }
+            } catch (err) {
+                console.log("No cloud state found yet. Syncing current local data...");
+            }
+        }
+
+        async function syncToSupabase() {
+            if (!supabaseClient) return;
+            try {
+                await supabaseClient.from('family_state').upsert([{ id: 1, state_data: state }]);
+            } catch (err) {
+                console.warn("Supabase cloud sync warning:", err);
+            }
+        }
+
+        function persistState(key, value) {
+            state[key] = value;
+            setLocal(key, value);
+            syncToSupabase();
+        }
+
+        function renderAll() {
+            renderHero();
+            renderHeadOfFamily();
+            renderMembers();
+            renderVideos();
+            renderEvents();
+        }
+
+        function renderHero() {
+            document.getElementById('banner-img-display').src = state.banner;
+            document.getElementById('slogan-display').textContent = `"${state.slogan}"`;
+            document.getElementById('admin-slogan-input').value = state.slogan;
+        }
+
+        function renderHeadOfFamily() {
+            const container = document.getElementById('head-display-container');
+            const h = state.head;
+
+            if (!h) {
+                container.innerHTML = `<p class="text-center text-slate-400">No Head of Family defined.</p>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+                    <div class="relative flex-shrink-0 animate-float">
+                        <div class="w-48 h-48 sm:w-60 sm:h-60 rounded-3xl overflow-hidden shadow-2xl border-4 border-emerald-600/20 ring-4 ring-emerald-500/10">
+                            <img src="${h.photo}" alt="${h.name}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-3 -right-3 bg-emerald-700 text-white p-3 rounded-2xl shadow-lg border border-emerald-500">
+                            <i class="fa-solid fa-crown text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="space-y-4 text-center lg:text-left flex-grow">
+                        <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Head of State & Family
+                        </span>
+                        <h3 class="text-3xl sm:text-4xl font-serif-title font-bold text-slate-900 tracking-tight">
+                            ${h.name}
+                        </h3>
+                        <div class="inline-flex items-center gap-2 text-emerald-700 font-semibold bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-200/60">
+                            <i class="fa-solid fa-phone text-sm"></i>
+                            <a href="tel:${h.phone}" class="hover:underline">${h.phone}</a>
+                        </div>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+                            ${h.description}
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('head-name-input').value = h.name;
+            document.getElementById('head-phone-input').value = h.phone;
+            document.getElementById('head-desc-input').value = h.description;
+        }
+
+        function renderMembers() {
+            const grid = document.getElementById('members-grid');
+            const adminList = document.getElementById('admin-members-list');
+
+            if (!state.members || state.members.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-8">No family members registered yet.</p>`;
+            } else {
+                grid.innerHTML = state.members.map((m, idx) => `
+                    <div class="bg-white rounded-3xl border border-emerald-100 p-6 shadow-md hover:shadow-xl hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1 animate-float float-delay-${(idx % 3) + 1}">
+                        <div class="space-y-4">
+                            <div class="relative w-full h-60 rounded-2xl overflow-hidden bg-slate-100">
+                                <img src="${m.photo}" alt="${m.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div>
+                                <h3 class="font-serif-title text-xl font-bold text-slate-900">${m.name}</h3>
+                                <div class="flex items-center gap-2 text-emerald-700 text-xs font-semibold mt-1">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <span>${m.phone}</span>
+                                </div>
+                                <p class="text-slate-600 text-xs mt-3 leading-relaxed">${m.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            adminList.innerHTML = (state.members || []).map(m => `
+                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <div class="flex items-center gap-3">
+                        <img src="${m.photo}" class="w-10 h-10 rounded-lg object-cover">
+                        <div>
+                            <div class="font-bold text-xs text-slate-900">${m.name}</div>
+                            <div class="text-[10px] text-slate-500">${m.phone}</div>
+                        </div>
+                    </div>
+                    <button onclick="removeFamilyMember('${m.id}')" class="px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white text-xs font-medium transition-colors">
+                        <i class="fa-solid fa-trash-can"></i> Delete
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderVideos() {
+            const grid = document.getElementById('house-videos-grid');
+            const adminList = document.getElementById('admin-videos-list');
+
+            if (!state.videos || state.videos.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-8">No house videos uploaded yet.</p>`;
+            } else {
+                grid.innerHTML = state.videos.map(v => `
+                    <div class="bg-white rounded-3xl border border-emerald-100 p-6 shadow-md overflow-hidden space-y-4">
+                        <div class="w-full h-64 bg-slate-900 rounded-2xl overflow-hidden relative shadow-inner">
+                            <video controls class="w-full h-full object-cover">
+                                <source src="${v.url}" type="video/mp4">
+                                Your browser does not support video playback.
+                            </video>
+                        </div>
+                        <div>
+                            <h3 class="font-serif-title text-xl font-bold text-slate-900">${v.title}</h3>
+                            <p class="text-slate-600 text-xs mt-2 leading-relaxed">${v.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            adminList.innerHTML = (state.videos || []).map(v => `
+                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <div>
+                        <div class="font-bold text-xs text-slate-900">${v.title}</div>
+                        <div class="text-[10px] text-slate-500 truncate max-w-xs">${v.description}</div>
+                    </div>
+                    <button onclick="removeHouseVideo('${v.id}')" class="px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white text-xs font-medium transition-colors">
+                        <i class="fa-solid fa-trash-can"></i> Delete
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderEvents() {
+            const grid = document.getElementById('events-grid');
+            const adminList = document.getElementById('admin-events-list');
+
+            if (!state.events || state.events.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-8">No upcoming events scheduled.</p>`;
+            } else {
+                grid.innerHTML = state.events.map(e => `
+                    <div class="bg-white rounded-3xl border border-emerald-100 p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
+                                    <i class="fa-solid fa-clock mr-1"></i> ${e.datetime}
+                                </span>
+                            </div>
+                            <h3 class="font-serif-title text-2xl font-bold text-slate-900">${e.title}</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">${e.description}</p>
+                        </div>
+
+                        ${e.photos && e.photos.length > 0 ? `
+                            <div class="pt-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">Event Gallery (${e.photos.length} Photos)</span>
+                                <div class="grid grid-cols-3 gap-2">
+                                    ${e.photos.map(p => `
+                                        <div class="h-24 rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
+                                            <img src="${p}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+
+            adminList.innerHTML = (state.events || []).map(e => `
+                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <div>
+                        <div class="font-bold text-xs text-slate-900">${e.title}</div>
+                        <div class="text-[10px] text-slate-500">${e.datetime}</div>
+                    </div>
+                    <button onclick="removeEvent('${e.id}')" class="px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white text-xs font-medium transition-colors">
+                        <i class="fa-solid fa-trash-can"></i> Delete
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function setupDragAndDrop() {
+            const zones = [
+                { id: 'banner-drop-zone', inputId: 'banner-file-input', handler: handleBannerFile },
+                { id: 'head-drop-zone', inputId: 'head-file-input', handler: handleHeadFile },
+                { id: 'member-drop-zone', inputId: 'member-file-input', handler: handleMemberFile },
+                { id: 'video-drop-zone', inputId: 'video-file-input', handler: handleVideoFile },
+                { id: 'event-drop-zone', inputId: 'event-file-input', handler: handleEventFiles }
+            ];
+
+            zones.forEach(zone => {
+                const el = document.getElementById(zone.id);
+                const input = document.getElementById(zone.inputId);
+
+                if (!el || !input) return;
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    el.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        el.classList.add('drag-over');
+                    }, false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    el.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        el.classList.remove('drag-over');
+                    }, false);
+                });
+
+                el.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    if (dt.files.length) zone.handler(dt.files);
+                });
+
+                input.addEventListener('change', (e) => {
+                    if (e.target.files.length) zone.handler(e.target.files);
+                });
+            });
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        async function handleBannerFile(files) {
+            if (files[0]) {
+                tempUploads.banner = await fileToBase64(files[0]);
+                showToast("Banner image staged!");
+            }
+        }
+
+        async function handleHeadFile(files) {
+            if (files[0]) {
+                tempUploads.head = await fileToBase64(files[0]);
+                const prev = document.getElementById('head-photo-preview');
+                prev.querySelector('img').src = tempUploads.head;
+                prev.classList.remove('hidden');
+                showToast("Head photo staged!");
+            }
+        }
+
+        async function handleMemberFile(files) {
+            if (files[0]) {
+                tempUploads.member = await fileToBase64(files[0]);
+                showToast("Member photo staged!");
+            }
+        }
+
+        async function handleVideoFile(files) {
+            if (files[0]) {
+                tempUploads.videoFile = await fileToBase64(files[0]);
+                document.getElementById('video-file-name').textContent = files[0].name;
+                showToast("Video file attached!");
+            }
+        }
+
+        async function handleEventFiles(files) {
+            tempUploads.eventPhotos = [];
+            for (let file of files) {
+                const b64 = await fileToBase64(file);
+                tempUploads.eventPhotos.push(b64);
+            }
+            document.getElementById('event-files-preview-count').textContent = `${tempUploads.eventPhotos.length} photo(s) selected.`;
+            showToast(`${tempUploads.eventPhotos.length} event pictures staged!`);
+        }
+
+        function openAdminAuthModal() {
+            document.getElementById('admin-auth-modal').classList.remove('hidden');
+            document.getElementById('auth-key-input').value = '';
+            document.getElementById('auth-error-msg').classList.add('hidden');
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById('admin-auth-modal').classList.add('hidden');
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const key = document.getElementById('auth-key-input').value.trim();
+            if (key === '2026') {
+                closeAdminAuthModal();
+                openAdminPanel();
+                showToast("Admin access granted!");
+            } else {
+                document.getElementById('auth-error-msg').classList.remove('hidden');
+            }
+        }
+
+        function openAdminPanel() {
+            document.getElementById('admin-panel-modal').classList.remove('hidden');
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('admin-panel-modal').classList.add('hidden');
+        }
+
+        function switchAdminTab(tabName) {
+            document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.admin-tab-btn').forEach(b => {
+                b.classList.remove('border-b-2', 'border-emerald-600', 'bg-white', 'text-emerald-800', 'shadow-sm');
+                b.classList.add('text-slate-600');
+            });
+
+            document.getElementById(`admin-tab-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+            activeBtn.classList.add('border-b-2', 'border-emerald-600', 'bg-white', 'text-emerald-800', 'shadow-sm');
+            activeBtn.classList.remove('text-slate-600');
+        }
+
+        function saveHeroSettings() {
+            const slogan = document.getElementById('admin-slogan-input').value.trim();
+            if (slogan) persistState('slogan', slogan);
+            if (tempUploads.banner) {
+                persistState('banner', tempUploads.banner);
+                tempUploads.banner = null;
+            }
+            renderHero();
+            showToast("Banner and slogan updated!");
+        }
+
+        function saveHeadOfFamily(e) {
+            e.preventDefault();
+            const name = document.getElementById('head-name-input').value;
+            const phone = document.getElementById('head-phone-input').value;
+            const desc = document.getElementById('head-desc-input').value;
+
+            const newHead = {
+                id: state.head ? state.head.id : 'head-1',
+                name,
+                phone,
+                description: desc,
+                photo: tempUploads.head || (state.head ? state.head.photo : DEFAULT_HEAD.photo)
+            };
+
+            persistState('head', newHead);
+            renderHeadOfFamily();
+            tempUploads.head = null;
+            showToast("Head of Family updated!");
+        }
+
+        function addFamilyMember(e) {
+            e.preventDefault();
+            const name = document.getElementById('member-name-input').value;
+            const phone = document.getElementById('member-phone-input').value;
+            const desc = document.getElementById('member-desc-input').value;
+
+            const newMember = {
+                id: 'mem-' + Date.now(),
+                name,
+                phone,
+                description: desc,
+                photo: tempUploads.member || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=600'
+            };
+
+            const updated = [...(state.members || []), newMember];
+            persistState('members', updated);
+            renderMembers();
+
+            document.getElementById('member-form').reset();
+            tempUploads.member = null;
+            showToast("Family member added!");
+        }
+
+        function removeFamilyMember(id) {
+            const updated = state.members.filter(m => m.id !== id);
+            persistState('members', updated);
+            renderMembers();
+            showToast("Member removed.");
+        }
+
+        function addHouseVideo(e) {
+            e.preventDefault();
+            const title = document.getElementById('video-title-input').value;
+            const desc = document.getElementById('video-desc-input').value;
+            const urlInput = document.getElementById('video-url-input').value.trim();
+
+            const videoUrl = tempUploads.videoFile || urlInput || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
+
+            const newVideo = {
+                id: 'vid-' + Date.now(),
+                title,
+                description: desc,
+                url: videoUrl
+            };
+
+            const updated = [newVideo, ...(state.videos || [])];
+            persistState('videos', updated);
+            renderVideos();
+
+            document.getElementById('video-form').reset();
+            document.getElementById('video-file-name').textContent = '';
+            tempUploads.videoFile = null;
+            showToast("House video published!");
+        }
+
+        function removeHouseVideo(id) {
+            const updated = state.videos.filter(v => v.id !== id);
+            persistState('videos', updated);
+            renderVideos();
+            showToast("Video deleted.");
+        }
+
+        function addUpcomingEvent(e) {
+            e.preventDefault();
+            const title = document.getElementById('event-title-input').value;
+            const datetime = document.getElementById('event-datetime-input').value;
+            const desc = document.getElementById('event-desc-input').value;
+
+            const newEvent = {
+                id: 'evt-' + Date.now(),
+                title,
+                datetime,
+                description: desc,
+                photos: tempUploads.eventPhotos.length > 0 ? [...tempUploads.eventPhotos] : [
+                    'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=600'
+                ]
+            };
+
+            const updated = [newEvent, ...(state.events || [])];
+            persistState('events', updated);
+            renderEvents();
+
+            document.getElementById('event-form').reset();
+            document.getElementById('event-files-preview-count').textContent = '';
+            tempUploads.eventPhotos = [];
+            showToast("Event created with multiple pictures!");
+        }
+
+        function removeEvent(id) {
+            const updated = state.events.filter(e => e.id !== id);
+            persistState('events', updated);
+            renderEvents();
+            showToast("Event removed.");
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgColor = type === 'error' ? 'bg-red-700' : 'bg-emerald-800';
+
+            toast.className = `${bgColor} text-white px-5 py-3 rounded-xl shadow-lg text-xs font-semibold flex items-center gap-2 transform transition-all duration-300 translate-y-2 opacity-0`;
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
