@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Family Heritage Portal & Estate</title>
+    <title>farooqhome - Family of Farooq Portal</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -30,10 +30,15 @@
                         float: {
                             '0%, 100%': { transform: 'translateY(0px)' },
                             '50%': { transform: 'translateY(-6px)' },
+                        },
+                        subtleGlow: {
+                            '0%, 100%': { opacity: '0.8' },
+                            '50%': { opacity: '1' }
                         }
                     },
                     animation: {
                         float: 'float 4s ease-in-out infinite',
+                        glow: 'subtleGlow 3s ease-in-out infinite'
                     }
                 }
             }
@@ -74,6 +79,26 @@
         .float-delay-1 { animation-delay: 0.5s; }
         .float-delay-2 { animation-delay: 1.0s; }
         .float-delay-3 { animation-delay: 1.5s; }
+
+        .responsive-video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            background-color: #020617;
+        }
+
+        .responsive-video-container iframe,
+        .responsive-video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen flex flex-col justify-between selection:bg-emerald-100 selection:text-emerald-800">
@@ -82,19 +107,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <a href="#" class="flex items-center gap-3 group">
                 <div class="w-10 h-10 rounded-xl bg-emerald-700 text-white flex items-center justify-center font-serif-title font-bold text-xl shadow-md shadow-emerald-700/20 group-hover:scale-105 transition-transform">
-                    H
+                    F
                 </div>
                 <div>
-                    <span class="block font-serif-title text-xl font-bold text-slate-900 tracking-tight">THE HERITAGE</span>
-                    <span class="block text-xs uppercase tracking-widest text-emerald-600 font-semibold">Family Portal</span>
+                    <span class="block font-serif-title text-xl font-bold text-slate-900 tracking-tight">farooqhome</span>
+                    <span class="block text-[10px] uppercase tracking-widest text-emerald-600 font-bold">Family of Farooq</span>
                 </div>
             </a>
 
             <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600">
                 <a href="#head-section" class="hover:text-emerald-700 transition-colors">Head of Family</a>
                 <a href="#members-section" class="hover:text-emerald-700 transition-colors">Members</a>
-                <a href="#house-videos-section" class="hover:text-emerald-700 transition-colors">House Videos</a>
-                <a href="#events-section" class="hover:text-emerald-700 transition-colors">Events</a>
+                <a href="#house-videos-section" class="hover:text-emerald-700 transition-colors">House Tour Video</a>
+                <a href="#events-section" class="hover:text-emerald-700 transition-colors">Upcoming Events</a>
             </nav>
 
             <div class="flex items-center gap-3">
@@ -109,24 +134,24 @@
         </div>
     </header>
 
-    <section class="relative bg-slate-900 text-white overflow-hidden min-h-[480px] sm:min-h-[580px] flex items-center justify-center">
+    <section class="relative bg-slate-950 text-white overflow-hidden min-h-[480px] sm:min-h-[580px] flex items-center justify-center">
         <div class="absolute inset-0 z-0">
-            <img id="banner-img-display" src="" alt="Family Banner" class="w-full h-full object-cover object-center brightness-50 transition-opacity duration-700">
+            <img id="banner-img-display" src="" alt="Farooq Home Banner" class="w-full h-full object-cover object-center brightness-50 transition-opacity duration-700">
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
         </div>
 
         <div class="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-6 py-16">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-200 text-xs sm:text-sm font-semibold tracking-wider uppercase backdrop-blur-md">
-                <i class="fa-solid fa-shield-halved text-emerald-400"></i> Unity & Honor
+                <i class="fa-solid fa-house-chimney text-emerald-400"></i> farooqhome • Family Portal
             </div>
             <h1 id="slogan-display" class="text-3xl sm:text-5xl md:text-6xl font-serif-title font-bold leading-tight text-white tracking-wide max-w-4xl mx-auto drop-shadow-md">
             </h1>
             <div class="pt-4 flex justify-center gap-4">
                 <a href="#head-section" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm shadow-lg shadow-emerald-900/30 transition-all hover:scale-105">
-                    Explore Legacy
+                    Meet the Head
                 </a>
-                <a href="#house-videos-section" class="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-sm backdrop-blur-md border border-white/20 transition-all">
-                    House Tour
+                <a href="#house-videos-section" class="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-sm backdrop-blur-md border border-white/20 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-circle-play text-emerald-400"></i> House Video
                 </a>
             </div>
         </div>
@@ -148,7 +173,7 @@
         <!-- Members Section -->
         <section id="members-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-28">
             <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Our Kin</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Farooq Kin</span>
                 <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-slate-900">Family Members</h2>
                 <div class="w-12 h-1 bg-emerald-600 mx-auto rounded-full mt-2"></div>
             </div>
@@ -156,14 +181,22 @@
             </div>
         </section>
 
-        <!-- House Video & Virtual Tour Section -->
-        <section id="house-videos-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-28">
+        <!-- House Video & Virtual Tour Section (FIXED VIDEO PLAYER) -->
+        <section id="house-videos-section" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-28">
             <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Estate & Sanctuary</span>
-                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-slate-900">House Video & Virtual Tours</h2>
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Sanctuary & Tour</span>
+                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-slate-900">House Video & Tour</h2>
                 <div class="w-12 h-1 bg-emerald-600 mx-auto rounded-full mt-2"></div>
             </div>
-            <div id="house-videos-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div id="house-video-card" class="bg-white rounded-3xl border border-emerald-100 p-6 sm:p-8 shadow-xl space-y-6">
+                <div id="house-video-player-wrapper" class="responsive-video-container border-2 border-emerald-500/20 shadow-2xl">
+                    <!-- Dynamic Video or Embed Rendered via JS -->
+                </div>
+                <div class="space-y-2">
+                    <h3 id="house-video-title-display" class="font-serif-title text-2xl font-bold text-slate-900"></h3>
+                    <p id="house-video-desc-display" class="text-slate-600 text-sm leading-relaxed"></p>
+                </div>
             </div>
         </section>
 
@@ -180,16 +213,16 @@
 
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-serif-title font-bold text-lg">
-                    H
+                <div class="w-9 h-9 rounded-xl bg-emerald-700 text-white flex items-center justify-center font-serif-title font-bold text-lg">
+                    F
                 </div>
-                <span class="font-serif-title text-lg font-bold text-white tracking-wide">The Family Heritage</span>
+                <span class="font-serif-title text-lg font-bold text-white tracking-wide">farooqhome</span>
             </div>
             <p class="text-xs text-slate-500 text-center">
-                &copy; <span id="current-year"></span> Family Heritage Portal. All Rights Reserved. Protected Access System.
+                &copy; <span id="current-year"></span> farooqhome • Family of Farooq. All Rights Reserved.
             </p>
             <div class="flex items-center gap-4 text-xs">
                 <button onclick="openAdminAuthModal()" class="text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1.5">
@@ -205,8 +238,8 @@
                 <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center mx-auto text-xl shadow-inner">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
-                <h3 class="text-xl font-serif-title font-bold text-slate-900">Protected Back-Office</h3>
-                <p class="text-xs text-slate-500">Enter security key 2026 to open admin controls.</p>
+                <h3 class="text-xl font-serif-title font-bold text-slate-900">farooqhome Admin Access</h3>
+                <p class="text-xs text-slate-500">Enter access key <strong>2026</strong> to manage back-office settings.</p>
             </div>
 
             <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="mt-6 space-y-4">
@@ -236,14 +269,14 @@
     <div id="admin-panel-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl shadow-2xl border border-emerald-100 w-full max-w-5xl my-auto max-h-[92vh] flex flex-col overflow-hidden">
             <!-- Header -->
-            <div class="px-6 py-5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+            <div class="px-6 py-5 bg-slate-950 text-white flex items-center justify-between border-b border-slate-800">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">
                         <i class="fa-solid fa-sliders"></i>
                     </div>
                     <div>
-                        <h2 class="font-serif-title text-lg font-bold">Back-Office Management</h2>
-                        <p class="text-xs text-emerald-400">Authenticated (Key: 2026)</p>
+                        <h2 class="font-serif-title text-lg font-bold">farooqhome Back-Office</h2>
+                        <p class="text-xs text-emerald-400">Authenticated System (Key: 2026)</p>
                     </div>
                 </div>
                 <button onclick="closeAdminPanel()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-colors">
@@ -262,14 +295,11 @@
                 <button onclick="switchAdminTab('members')" id="tab-btn-members" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
                     <i class="fa-solid fa-users"></i> Members
                 </button>
-                <button onclick="switchAdminTab('videos')" id="tab-btn-videos" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
-                    <i class="fa-solid fa-video"></i> House Videos
+                <button onclick="switchAdminTab('video')" id="tab-btn-video" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-video"></i> House Video
                 </button>
                 <button onclick="switchAdminTab('events')" id="tab-btn-events" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
                     <i class="fa-solid fa-calendar-days"></i> Events
-                </button>
-                <button onclick="switchAdminTab('supabase')" id="tab-btn-supabase" class="admin-tab-btn px-4 py-2.5 rounded-t-xl font-medium text-sm flex items-center gap-2 text-slate-600 hover:text-slate-900">
-                    <i class="fa-solid fa-database text-emerald-600"></i> Supabase Integration
                 </button>
             </div>
 
@@ -309,7 +339,7 @@
                             <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
                                 <i class="fa-solid fa-crown text-emerald-600"></i> Head of Family Setup
                             </h3>
-                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Enforced Single Entry</span>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Strictly 1 Head of Family</span>
                         </div>
                         
                         <form id="head-form" onsubmit="saveHeadOfFamily(event)" class="space-y-4">
@@ -390,26 +420,28 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: House Videos (NEW) -->
-                <div id="admin-tab-videos" class="admin-tab-content space-y-6 hidden">
+                <!-- TAB 4: House Video Manager (SUPPORTING YOUTUBE & FILES) -->
+                <div id="admin-tab-video" class="admin-tab-content space-y-6 hidden">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                         <h3 class="text-base font-bold text-slate-900 border-b pb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-video text-emerald-600"></i> Add House Video / Tour
+                            <i class="fa-solid fa-video text-emerald-600"></i> House Video / Tour Settings
                         </h3>
-                        <form id="video-form" onsubmit="addHouseVideo(event)" class="space-y-4">
+                        
+                        <form id="video-form" onsubmit="saveHouseVideoSettings(event)" class="space-y-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Video Title</label>
-                                <input type="text" id="video-title-input" placeholder="e.g. Living Room & Garden Virtual Tour" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                <input type="text" id="video-title-input" required placeholder="e.g. Farooq Family Sanctuary & Courtyard" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Description</label>
-                                <textarea id="video-desc-input" rows="2" placeholder="Brief description of the house tour video..." required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"></textarea>
+                                <textarea id="video-desc-input" rows="2" required placeholder="Brief description of the estate tour..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"></textarea>
                             </div>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Option A: Video URL (MP4 / WebM / YouTube Embed)</label>
-                                    <input type="url" id="video-url-input" placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Option A: Video Link (YouTube / Vimeo / MP4 URL)</label>
+                                    <input type="url" id="video-url-input" placeholder="https://www.youtube.com/watch?v=..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+                                    <p class="text-[10px] text-slate-500 mt-1">Supports standard YouTube URLs, Vimeo, or direct .mp4 links.</p>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Option B: Upload Video File</label>
@@ -422,18 +454,20 @@
                             </div>
 
                             <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm shadow-sm transition-all">
-                                Upload & Save Video
+                                Update House Video
                             </button>
                         </form>
                     </div>
 
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                        <h3 class="text-base font-bold text-slate-900 border-b pb-2">Active House Videos</h3>
-                        <div id="admin-videos-list" class="space-y-3"></div>
+                    <!-- Video Preview Card in Admin Panel -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Current Admin Video Preview</h4>
+                        <div id="admin-video-preview-wrapper" class="responsive-video-container border border-slate-200 shadow-sm">
+                        </div>
                     </div>
                 </div>
 
-                <!-- TAB 5: Events (Multi-picture enabled) -->
+                <!-- TAB 5: Events -->
                 <div id="admin-tab-events" class="admin-tab-content space-y-6 hidden">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                         <h3 class="text-base font-bold text-slate-900 border-b pb-2 flex items-center gap-2">
@@ -455,7 +489,7 @@
                                 <textarea id="event-desc-input" rows="2" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"></textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Event Pictures (Select / Drag Multiple Photos)</label>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Event Pictures (Drag / Select Multiple Photos)</label>
                                 <div class="drop-zone border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center bg-slate-50 hover:bg-emerald-50/30 transition-colors cursor-pointer relative" id="event-drop-zone">
                                     <input type="file" id="event-file-input" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                     <i class="fa-solid fa-images text-2xl text-emerald-600 mb-1"></i>
@@ -475,94 +509,64 @@
                     </div>
                 </div>
 
-                <!-- TAB 6: Supabase Integration Configuration (NEW) -->
-                <div id="admin-tab-supabase" class="admin-tab-content space-y-6 hidden">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                        <div class="flex items-center justify-between border-b pb-3">
-                            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                                <i class="fa-solid fa-database text-emerald-600"></i> Supabase Database Integration
-                            </h3>
-                            <span id="supabase-indicator-modal" class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-full">Disconnected (Using LocalStorage)</span>
-                        </div>
-
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            Connect your project to Supabase for real-time cloud database storage across all devices. If disconnected, the app automatically runs smoothly on LocalStorage.
-                        </p>
-
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Supabase Project URL</label>
-                                <input type="text" id="supabase-url-input" placeholder="https://your-project.supabase.co" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Supabase Anon Key</label>
-                                <input type="password" id="supabase-key-input" placeholder="eyJhbGciOiJIUzI1NiIsIn..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
-                            </div>
-
-                            <div class="flex items-center gap-3 pt-2">
-                                <button onclick="saveSupabaseConfig()" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm shadow-sm transition-all">
-                                    Connect & Sync Supabase
-                                </button>
-                                <button onclick="disconnectSupabase()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium text-sm transition-all">
-                                    Use LocalStorage Only
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
 
-    <!-- Notification Toast -->
+    <!-- Toast Container -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
     <script>
-        // Default Mock Data
-        const DEFAULT_BANNER = "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=1600";
-        const DEFAULT_SLOGAN = "Legacy of Harmony, Unity & Purpose";
+        // ========================================================
+        // SUPABASE CONFIGURATION
+        // ========================================================
+        const SUPABASE_URL = "https://jdtqjcysjbjestdilxsc.supabase.co";
+        
+        // PASTE YOUR SUPABASE ANON / PUBLIC KEY HERE:
+        const SUPABASE_ANON_KEY = "sb_publishable_tCCmmz9eDXbDWKYyQWuJJw_yT-E7e72";
+
+        // Default Mock Data for Farooq Home
+        const DEFAULT_BANNER = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1600";
+        const DEFAULT_SLOGAN = "Unity, Faith, and Generational Excellence";
 
         const DEFAULT_HEAD = {
             id: 'head-1',
-            name: 'Arthur Pendelton Heritage',
-            phone: '+1 (555) 019-2834',
-            description: 'Patriarch and guiding wisdom of the family. Overseeing family unity, tradition preservation, and community leadership for over four decades.',
+            name: 'Farooq Ahmad',
+            phone: '+1 (555) 892-4011',
+            description: 'Patriarch and cornerstone of farooqhome. Dedicated to guiding the family with wisdom, strength, and timeless values.',
             photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600'
         };
 
         const DEFAULT_MEMBERS = [
             {
                 id: 'mem-1',
-                name: 'Eleanor Heritage',
-                phone: '+1 (555) 019-5821',
-                description: 'Senior Director of Family Foundation & Cultural Heritage.',
+                name: 'Zainab Farooq',
+                phone: '+1 (555) 892-4012',
+                description: 'Director of Family Educational Affairs and Philanthropy.',
                 photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600'
             },
             {
                 id: 'mem-2',
-                name: 'Marcus Heritage',
-                phone: '+1 (555) 019-3392',
-                description: 'Head of Strategic Operations and Youth Mentorship Program.',
+                name: 'Hamza Farooq',
+                phone: '+1 (555) 892-4013',
+                description: 'Lead for Technology & Youth Leadership Initiatives.',
                 photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600'
             }
         ];
 
-        const DEFAULT_VIDEOS = [
-            {
-                id: 'vid-1',
-                title: 'Main Estate & Courtyard Tour',
-                description: 'A serene walkthrough of the family sanctuary and surrounding gardens.',
-                url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
-            }
-        ];
+        // Sample Video (YouTube Embed link or MP4)
+        const DEFAULT_VIDEO = {
+            title: 'farooqhome Sanctuary & Estate Tour',
+            description: 'An exclusive walkthrough of the Farooq family sanctuary, courtyards, and gardens.',
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' // Auto converts to embed
+        };
 
         const DEFAULT_EVENTS = [
             {
                 id: 'evt-1',
-                title: 'Annual Grand Heritage Reunion',
-                datetime: 'December 24, 2026 • 5:00 PM',
-                description: 'Our flagship annual gathering with dinner, award ceremonies, and story sharing across generations.',
+                title: 'Farooq Family Annual Gathering',
+                datetime: 'December 24, 2026 • 6:00 PM',
+                description: 'Our annual celebration bringing together all family members for dinner and fellowship.',
                 photos: [
                     'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=600',
                     'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=600'
@@ -570,20 +574,20 @@
             }
         ];
 
-        // Supabase Client Instance Variable
+        // Supabase Client Instance
         let supabaseClient = null;
 
-        // Application State
+        // Global State
         let state = {
             banner: DEFAULT_BANNER,
             slogan: DEFAULT_SLOGAN,
             head: DEFAULT_HEAD,
             members: DEFAULT_MEMBERS,
-            videos: DEFAULT_VIDEOS,
+            video: DEFAULT_VIDEO,
             events: DEFAULT_EVENTS
         };
 
-        // Base64 Staging state
+        // Temporary Upload Staging
         let tempUploads = {
             banner: null,
             head: null,
@@ -605,13 +609,13 @@
             state.slogan = getLocal('slogan', DEFAULT_SLOGAN);
             state.head = getLocal('head', DEFAULT_HEAD);
             state.members = getLocal('members', DEFAULT_MEMBERS);
-            state.videos = getLocal('videos', DEFAULT_VIDEOS);
+            state.video = getLocal('video', DEFAULT_VIDEO);
             state.events = getLocal('events', DEFAULT_EVENTS);
         }
 
         function getLocal(key, fallback) {
             try {
-                const stored = localStorage.getItem('heritage_' + key);
+                const stored = localStorage.getItem('farooqhome_' + key);
                 return stored ? JSON.parse(stored) : fallback;
             } catch (e) {
                 return fallback;
@@ -620,81 +624,51 @@
 
         function setLocal(key, val) {
             try {
-                localStorage.setItem('heritage_' + key, JSON.stringify(val));
+                localStorage.setItem('farooqhome_' + key, JSON.stringify(val));
             } catch (e) {
                 showToast("LocalStorage quota exceeded. Try smaller media files.", "error");
             }
         }
 
         async function initSupabaseConnection() {
-            const url = localStorage.getItem('heritage_sb_url');
-            const key = localStorage.getItem('heritage_sb_key');
+            const isKeyProvided = SUPABASE_ANON_KEY && SUPABASE_ANON_KEY !== "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
 
-            if (url && key && window.supabase) {
+            if (isKeyProvided && window.supabase) {
                 try {
-                    supabaseClient = window.supabase.createClient(url, key);
-                    document.getElementById('supabase-url-input').value = url;
-                    document.getElementById('supabase-key-input').value = key;
+                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-                    // Update UI status badges
                     const badge = document.getElementById('supabase-status-badge');
                     badge.classList.remove('hidden');
-                    badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
+                    badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Cloud Connected`;
                     badge.className = "hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800";
-
-                    document.getElementById('supabase-indicator-modal').textContent = "Connected to Cloud";
-                    document.getElementById('supabase-indicator-modal').className = "text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full";
 
                     await syncFromSupabase();
                 } catch (err) {
-                    console.warn("Supabase connection failed, falling back to LocalStorage:", err);
+                    console.warn("Supabase connection fallback to LocalStorage:", err);
+                    setLocalStorageFallbackStatus();
                 }
+            } else {
+                setLocalStorageFallbackStatus();
             }
         }
 
-        async function saveSupabaseConfig() {
-            const url = document.getElementById('supabase-url-input').value.trim();
-            const key = document.getElementById('supabase-key-input').value.trim();
-
-            if (!url || !key) {
-                showToast("Please provide both Supabase URL and Key", "error");
-                return;
-            }
-
-            localStorage.setItem('heritage_sb_url', url);
-            localStorage.setItem('heritage_sb_key', key);
-            
-            showToast("Connecting to Supabase...");
-            await initSupabaseConnection();
-            await syncToSupabase();
-            showToast("Supabase Connected & Data Synced!");
-        }
-
-        function disconnectSupabase() {
-            localStorage.removeItem('heritage_sb_url');
-            localStorage.removeItem('heritage_sb_key');
-            supabaseClient = null;
-
+        function setLocalStorageFallbackStatus() {
             const badge = document.getElementById('supabase-status-badge');
+            badge.classList.remove('hidden');
             badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Local Storage Mode`;
             badge.className = "hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-700";
-
-            document.getElementById('supabase-indicator-modal').textContent = "Disconnected (Using LocalStorage)";
-            document.getElementById('supabase-indicator-modal').className = "text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-full";
-
-            showToast("Switched to LocalStorage Mode.");
         }
 
         async function syncFromSupabase() {
             if (!supabaseClient) return;
             try {
-                const { data, error } = await supabaseClient.from('family_state').select('*').single();
+                const { data } = await supabaseClient.from('family_state').select('*').single();
                 if (data && data.state_data) {
                     state = data.state_data;
                     renderAll();
                 }
             } catch (err) {
-                console.log("No cloud state found yet. Syncing current local data...");
+                console.log("Syncing initial state to Supabase cloud...");
             }
         }
 
@@ -703,7 +677,7 @@
             try {
                 await supabaseClient.from('family_state').upsert([{ id: 1, state_data: state }]);
             } catch (err) {
-                console.warn("Supabase cloud sync warning:", err);
+                console.warn("Supabase sync warning:", err);
             }
         }
 
@@ -717,7 +691,7 @@
             renderHero();
             renderHeadOfFamily();
             renderMembers();
-            renderVideos();
+            renderHouseVideo();
             renderEvents();
         }
 
@@ -748,7 +722,7 @@
                     </div>
                     <div class="space-y-4 text-center lg:text-left flex-grow">
                         <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold uppercase tracking-wider">
-                            Head of State & Family
+                            Head of Family
                         </span>
                         <h3 class="text-3xl sm:text-4xl font-serif-title font-bold text-slate-900 tracking-tight">
                             ${h.name}
@@ -811,40 +785,52 @@
             `).join('');
         }
 
-        function renderVideos() {
-            const grid = document.getElementById('house-videos-grid');
-            const adminList = document.getElementById('admin-videos-list');
+        function parseVideoToHTML(videoUrl) {
+            if (!videoUrl) return '<div class="flex items-center justify-center h-full text-white text-xs">No video URL provided</div>';
 
-            if (!state.videos || state.videos.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-8">No house videos uploaded yet.</p>`;
-            } else {
-                grid.innerHTML = state.videos.map(v => `
-                    <div class="bg-white rounded-3xl border border-emerald-100 p-6 shadow-md overflow-hidden space-y-4">
-                        <div class="w-full h-64 bg-slate-900 rounded-2xl overflow-hidden relative shadow-inner">
-                            <video controls class="w-full h-full object-cover">
-                                <source src="${v.url}" type="video/mp4">
-                                Your browser does not support video playback.
-                            </video>
-                        </div>
-                        <div>
-                            <h3 class="font-serif-title text-xl font-bold text-slate-900">${v.title}</h3>
-                            <p class="text-slate-600 text-xs mt-2 leading-relaxed">${v.description}</p>
-                        </div>
-                    </div>
-                `).join('');
+            // Check YouTube URL formats
+            const ytMatch = videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+            if (ytMatch && ytMatch[1]) {
+                const embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&rel=0`;
+                return `<iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             }
 
-            adminList.innerHTML = (state.videos || []).map(v => `
-                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <div>
-                        <div class="font-bold text-xs text-slate-900">${v.title}</div>
-                        <div class="text-[10px] text-slate-500 truncate max-w-xs">${v.description}</div>
-                    </div>
-                    <button onclick="removeHouseVideo('${v.id}')" class="px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white text-xs font-medium transition-colors">
-                        <i class="fa-solid fa-trash-can"></i> Delete
-                    </button>
-                </div>
-            `).join('');
+            // Check Vimeo URL formats
+            const vimeoMatch = videoUrl.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/);
+            if (vimeoMatch && vimeoMatch[1]) {
+                return `<iframe src="https://player.vimeo.com/video/${vimeoMatch[1]}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+            }
+
+            // Direct HTML5 Video Player (MP4 / WebM / Base64)
+            return `
+                <video controls preload="metadata" class="w-full h-full object-cover">
+                    <source src="${videoUrl}" type="video/mp4">
+                    Your browser does not support HTML video.
+                </video>
+            `;
+        }
+
+        function renderHouseVideo() {
+            const wrapper = document.getElementById('house-video-player-wrapper');
+            const adminPreviewWrapper = document.getElementById('admin-video-preview-wrapper');
+            const titleDisplay = document.getElementById('house-video-title-display');
+            const descDisplay = document.getElementById('house-video-desc-display');
+
+            const v = state.video || DEFAULT_VIDEO;
+
+            const videoHTML = parseVideoToHTML(v.url);
+            wrapper.innerHTML = videoHTML;
+            if (adminPreviewWrapper) adminPreviewWrapper.innerHTML = videoHTML;
+
+            titleDisplay.textContent = v.title;
+            descDisplay.textContent = v.description;
+
+            // Populate admin inputs
+            document.getElementById('video-title-input').value = v.title;
+            document.getElementById('video-desc-input').value = v.description;
+            if (!v.url.startsWith('data:video')) {
+                document.getElementById('video-url-input').value = v.url;
+            }
         }
 
         function renderEvents() {
@@ -1092,36 +1078,26 @@
             showToast("Member removed.");
         }
 
-        function addHouseVideo(e) {
+        function saveHouseVideoSettings(e) {
             e.preventDefault();
             const title = document.getElementById('video-title-input').value;
             const desc = document.getElementById('video-desc-input').value;
             const urlInput = document.getElementById('video-url-input').value.trim();
 
-            const videoUrl = tempUploads.videoFile || urlInput || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
+            const finalVideoUrl = tempUploads.videoFile || urlInput || (state.video ? state.video.url : DEFAULT_VIDEO.url);
 
             const newVideo = {
-                id: 'vid-' + Date.now(),
                 title,
                 description: desc,
-                url: videoUrl
+                url: finalVideoUrl
             };
 
-            const updated = [newVideo, ...(state.videos || [])];
-            persistState('videos', updated);
-            renderVideos();
+            persistState('video', newVideo);
+            renderHouseVideo();
 
-            document.getElementById('video-form').reset();
             document.getElementById('video-file-name').textContent = '';
             tempUploads.videoFile = null;
-            showToast("House video published!");
-        }
-
-        function removeHouseVideo(id) {
-            const updated = state.videos.filter(v => v.id !== id);
-            persistState('videos', updated);
-            renderVideos();
-            showToast("Video deleted.");
+            showToast("House video updated!");
         }
 
         function addUpcomingEvent(e) {
@@ -1147,7 +1123,7 @@
             document.getElementById('event-form').reset();
             document.getElementById('event-files-preview-count').textContent = '';
             tempUploads.eventPhotos = [];
-            showToast("Event created with multiple pictures!");
+            showToast("Event created with pictures!");
         }
 
         function removeEvent(id) {
